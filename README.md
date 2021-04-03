@@ -6,14 +6,14 @@ statistics based on site frequency spectrum (SFS) and doing basic operations
 on SFS. It is still under development.
 
 
-##Install
+## Install
 ```
 git clone https://github.com/ivanliu3/asfsp
 cd asfsp
 python setup.py install
 ```
 
-##Usage example:
+## Usage example:
 0 help information
 ```
 python asfsp.py -h
