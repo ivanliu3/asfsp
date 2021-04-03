@@ -30,7 +30,7 @@ python asfsp.py --input ./tests/example_2d_11_7.sfs --dim 11,7 --calc dxy
 ```
 
 ## License
-This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.md) file for details
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details
 
 ## Authors
 * **Xiaodong Liu**  -*liuxiaodong.uu@gmail.com*
