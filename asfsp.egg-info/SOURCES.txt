@@ -1,4 +1,5 @@
 README.md
+setup.cfg
 setup.py
 asfsp.egg-info/PKG-INFO
 asfsp.egg-info/SOURCES.txt
