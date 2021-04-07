@@ -10,7 +10,7 @@ on SFS. It is still under development.
 ```
 git clone https://github.com/ivanliu3/asfsp
 cd asfsp
-python setup.py install
+python setup.py install --user
 ```
 
 ## Usage example:
