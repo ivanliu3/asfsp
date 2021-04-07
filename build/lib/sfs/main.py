@@ -27,48 +27,30 @@ class sfs:
             self.ndim = 1
             # save as integer
             if isinstance(dimension,int):
-                self.dimension = int(dimension) + 1
+                self.dimension = int(dimension)
             else:
-                self.dimension = int(dimension[0]) + 1
+                self.dimension = int(dimension[0])
             self.array = np_array
-            print("sfs object is created!\nNumber of entries: ",str(list([self.dimension])) )
+            print("sfs object is created!\nDimension: ",str(list([self.dimension])) )
         elif len(dimension) == 2: # dimension given as list of 2 element
             self.ndim =2
-            self.dimension = [x+1 for x in dimension]
-            self.array = np.reshape(np_array,(-1,self.dimension[1]))
-            print( "sfs object is created!\nNumber of entries: ", str(self.dimension) )
+            self.dimension = dimension
+            self.array = np.reshape(np_array,(-1,dimension[1]))
+            print( "sfs object is created!\nDimension: ", str(self.dimension) )
         else:
             sys.exit("Given dimension was wrong!")
 
     def plotSfs(self):
         
         #plt.imshow(self.array, cmap='hot', interpolation='nearest')
-        self.mask_fix()
-        #plt.imshow(self.array, cmap='hot', interpolation='nearest')
-        #plt.show()
-        sfs_vflip = np.flip(self.array,axis=0)
-        plt.imshow(sfs_vflip, cmap='viridis')
-        plt.colorbar()
+        ax = sns.heatmap(self.array, linewidth=0.5)
         plt.show()
 
     def printSfs(self):
         # convert to pandas dataframe and then print
-        sfs_vflip = np.flip(self.array,axis=0)
-        print (pd.DataFrame(sfs_vflip))
+        print (pd.DataFrame(self.array))
 
-    def marginalize(self,pop=1):
-        sfs_ori = self.array
-        if pop == 1:
-            sfs_sum = sfs_ori.sum(axis=1)
-        elif pop ==2:
-            sfs_sum = sfs_ori.sum(axis=0)
-        else:
-            sys.exit("Cannot be marginalized!")
-
-        self.array = sfs_sum
-        return self
-
-    def mask_fix(self):
+    def mask_corner(self):
         sfs = self.array
         if self.ndim == 2:
             n = self.dimension
@@ -84,20 +66,6 @@ class sfs:
 
         return self
 
-    def mask_first(self):
-        sfs = self.array
-        if self.ndim == 2:
-            n = self.dimension
-            sfs[0,0] = 0
-            self.array = sfs
-
-        if self.ndim ==1 :
-            n = self.dimension
-            sfs[0] = 0
-            self.aray = sfs
-
-        return self    
-
     def theta_w(self):
         # calculate Watterson's estimator of theta
         if self.ndim != 1:
@@ -105,7 +73,7 @@ class sfs:
         n = self.dimension
         obj_ori = copy.deepcopy(self)
         sfs_ori = obj_ori.array
-        self.mask_fix()
+        self.mask_corner()
         sfs_mask = self.array
         S = sum([1/s for s in range(n-1) if s!= 0])
         theta = (np.sum(sfs_mask)/S) / np.sum(sfs_ori)
@@ -123,7 +91,7 @@ class sfs:
             pihat = np.sum(np.inner( self.array, S) / ((n-1)*(n-2)/2))
         
         elif self.ndim == 2:
-            self.mask_fix()
+            self.mask_corner()
             sfs = self.array
             a1 = np.outer( np.array(range(n[0])), np.ones(n[1]) ) 
             a2 = np.outer( np.ones(n[0]), np.array(range(n[1])) )
@@ -145,7 +113,7 @@ class sfs:
         if self.ndim != 2:
             sys.exit("Hault! Only 2d SFS is supported")
         N1, N2 = self.dimension
-        self.mask_fix()
+        self.mask_corner()
         array = self.array / np.sum(self.array) # masked and normalized by sum
         aMat = np.empty((N1,N2))
         aMat[:] = np.NAN
@@ -167,6 +135,7 @@ class sfs:
         ss = np.sum(array * aMat_ss) / np.sum(array * baMat)
         print ("Hudson's Fst is: ", ss)
         return ss
+
 
 
 #s1 = sfs(raw_array,21)

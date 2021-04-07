@@ -7,4 +7,5 @@ setup(name = "asfsp",
       author_email = 'liuxiaodong.uu@gmail.com',
       license = 'MIT',
       packages = ['sfs'],
+      python_requires = '>3.0.1', 
       install_requires = ['numpy','pandas','matplotlib','seaborn'])
