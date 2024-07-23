@@ -30,7 +30,7 @@ if (args.get('oper')):
 ### import library ###
 import numpy as np
 import sys
-sys.path.insert(1, './sfs')
+sys.path.insert(1,os.path.dirname(os.path.abspath(__file__))+'/sfs')
 from main import sfs
 
 # parse input and create sfs object
