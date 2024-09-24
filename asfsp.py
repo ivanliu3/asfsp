@@ -30,6 +30,7 @@ if (args.get('oper')):
 ### import library ###
 import numpy as np
 import sys
+import os
 sys.path.insert(1,os.path.dirname(os.path.abspath(__file__))+'/sfs')
 from main import sfs
 
